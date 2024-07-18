@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+.text-gray {
+    color: #ECECEC;
+  }
+  
+.bg-dark-violet {
+    background-color: #0B061B;
+  }
+
+.cursor-pointer {
+    cursor: pointer;
+  }
+
+.fs-7 {
+    font-size: 0.75rem;
+  }
+
+.fs-6-5 {
+    font-size: 0.95rem;
+  }
+
+  .btn-primary-violet {
+    background-color: #9747FF !important;
+    border-color: #9747FF !important;
+    color: white !important;
+    transition: background-color 0.2s, border-color 0.2s !important;
+  
+    &:hover {
+      background-color: #7a38cc !important;
+      border-color: #7a38cc !important;
+      color: white !important;
+    }
+  
+    &:active {
+      background-color: #4B238E !important;
+      border-color: #4B238E !important;
+      color: white !important;
+    }
+  }
+  
+  .btn-outline-violet {
+    color: #9747FF !important;
+    border-color: #9747FF !important;
+    transition: background-color 0.2s, border-color 0.2s !important;
+  
+    &:hover {
+      color: white !important;
+      background-color: #9747FF !important;
+      border-color: #9747FF !important;
+    }
+  
+    &:active {
+      background-color: #4B238E !important;
+      border-color: #4B238E !important;
+    }
+  }
+  
