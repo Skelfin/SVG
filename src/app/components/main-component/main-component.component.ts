@@ -4,7 +4,7 @@ import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
 @Component({
   selector: 'app-main-component',
   standalone: true,
-  imports: [CommonModule ],
+  imports: [CommonModule],
   templateUrl: './main-component.component.html',
   styleUrl: './main-component.component.scss',
   encapsulation: ViewEncapsulation.None

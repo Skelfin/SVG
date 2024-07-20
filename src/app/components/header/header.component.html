@@ -1,22 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container border-bottom border-dark pt-2 pb-3">
-      <a class="navbar-brand" href="#">
-        <img src="assets/logo2.png" alt="Logo" width="40" height="28" class="d-inline-block align-text-top">
-        <span class="ms-1 mt-3"> SparkleView</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Регистрация</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Вход</a>
-          </li>
-        </ul>
-      </div>
+  <div class="container border-bottom border-dark pt-2 pb-3">
+    <a class="navbar-brand" href="#">
+      <img src="assets/logo2.png" alt="Logo" width="40" height="28" class="d-inline-block align-text-top">
+      <span class="ms-1 mt-3"> SparkleView</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showRegister()">Регистрация</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showLogin()">Вход</a>
+        </li>
+      </ul>
     </div>
-  </nav>
-  
+  </div>
+</nav>
+
+<app-reg-auth-modal #regAuthModal></app-reg-auth-modal>
