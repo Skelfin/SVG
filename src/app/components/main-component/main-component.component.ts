@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPlus, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-main-component',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './main-component.component.html',
   styleUrl: './main-component.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class MainComponentComponent implements OnInit {
-
+  faPlus = faPlus;
+  faAngleDown = faAngleDown;
   photos = [
     { id: 1, url: '3.png', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
     { id: 2, url: '4.png', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },

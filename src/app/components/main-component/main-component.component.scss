@@ -33,3 +33,28 @@
 .card-img-container:hover .card-img-overlay {
   opacity: 1;
 }
+
+.pr-8px {
+  padding-right: 8px;
+}
+
+.nowrap-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 575.98px) {
+  .nowrap-btn {
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+  }
+  
+  .button-text {
+    display: none;
+  }
+
+  .pr-8px {
+    padding-right: 0 !important;
+  }
+}

@@ -1,0 +1,51 @@
+h1 {
+  color: #ffffff;
+  margin: 0;
+}
+
+p {
+  color: #bbbbbb;
+  margin: 0;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+button {
+  color: #8a2be2;
+  border-color: #8a2be2;
+}
+
+button:hover {
+  background-color: #8a2be2;
+  color: #ffffff;
+}
+
+.nowrap-btn {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pr-8px {
+  padding-right: 8px;
+}
+
+@media (max-width: 575.98px) {
+  .nowrap-btn {
+    width: 45px;
+    height: 45px;
+    justify-content: center;
+  }
+  
+  .button-text {
+    display: none;
+  }
+
+  .pr-8px {
+    padding-right: 0 !important;
+  }
+}

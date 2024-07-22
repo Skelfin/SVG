@@ -1,0 +1,15 @@
+<div>
+    <img src="assets/1.png" class="img-fluid rounded-4 mb-4 zoomable-image" alt="Картинка" (click)="openLightbox('assets/Home.jpg')">
+  
+    <!-- Modal -->
+    <div class="modal fade custom-zoom" id="lightboxModal" tabindex="-1" aria-labelledby="lightboxModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-5 border-0 transparent-modal">
+          <div class="modal-body p-0">
+            <img [src]="selectedImage" class="img-fluid rounded-4" alt="Lightbox Image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

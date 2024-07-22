@@ -1,0 +1,36 @@
+.rating-box, .grade-box {
+  background-color: #180F35;
+  color: #ffffff;
+  padding: 20px 0 25px !important;
+}
+
+.rating-value {
+  font-size: 72px;
+  color: #9747FF;
+}
+
+.star {
+  font-size: 36px;
+  color: #8a2be2;
+  margin: 0 5px;
+}
+
+@media (max-width: 575.98px) {
+  .d-xs-row {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+  .rating-value {
+    margin-right: 1rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .equal-height {
+    display: flex;
+    align-items: stretch;
+  }
+  .equal-height > div {
+    flex: 1;
+  }
+}

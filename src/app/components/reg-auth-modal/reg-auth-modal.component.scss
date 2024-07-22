@@ -16,7 +16,7 @@
 }
 
 .modal-content {
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   border-radius: 10px;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .modal-body {
-  padding-top: 10px; /* Уменьшает верхний отступ */
+  padding: 10px 16px 10px 16px; /* Уменьшает верхний отступ */
 }
 
 .btn-close {
@@ -100,6 +100,10 @@
   background-color: #9747FF;
   border: 2px solid #9747FF;
 
+}
+
+.custom-checkbox {
+  border: 2px solid #393939;
 }
 
 .custom-checkbox:focus {
