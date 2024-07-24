@@ -78,7 +78,7 @@ export class AddFormComponent implements OnInit, OnDestroy {
         this.readFile(file);
       } else {
         alert('Файл должен быть формата JPG и не превышать 3 МБ');
-        input.value = ''; // Сбросить значение input, чтобы пользователь мог выбрать другой файл
+        input.value = '';
       }
     }
   }
@@ -123,8 +123,8 @@ export class AddFormComponent implements OnInit, OnDestroy {
   }
 
   removeImage(event: Event): void {
-    event.stopPropagation(); // Prevent triggering the file input click
+    event.stopPropagation();
     this.imageSrc = null;
-    this.fileInput.nativeElement.value = ''; // Сбрасываем значение input
+    this.fileInput.nativeElement.value = '';
   }
 }

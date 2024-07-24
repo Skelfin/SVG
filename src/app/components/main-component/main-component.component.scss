@@ -43,6 +43,12 @@
   align-items: center;
 }
 
+.button-spinner {
+  width: 2rem;
+  height: 2rem; 
+  display: inline-block;
+}
+
 @media (max-width: 575.98px) {
   .nowrap-btn {
     width: 50px;

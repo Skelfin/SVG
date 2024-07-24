@@ -1,28 +1,47 @@
 <div class="container user-select-none">
-  <div class="d-flex justify-content-between align-items-center my-3">
-    <h1 class="text-white">Июль, 2022</h1>
-    <button routerLink="/adding" class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
-      <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
-      <span class="button-text">Добавить фото</span>
-    </button>
-  </div>
-  <div class="row justify-content-start cursor-pointer">
-    @for (photo of photos; track photo.id) {
-      <div class="col-6 col-md-4 col-lg-3 mb-4 px-0">
-        <div class="card text-bg-dark h-100 rounded-5">
-          <div routerLink="/picture" class="card-img-container position-relative rounded-5" style="background-color: rgba(0, 0, 0, 0);">
-            <img [src]="'assets/' + photo.url" class="card-img img-fluid" alt="{{ photo.title }}">
-            <div class="card-img-overlay d-flex flex-column justify-content-end overlay">
-              <h5 class="card-title fs-6-5 text-truncate">{{ photo.title }}</h5>
-              <p class="card-text fs-7">{{ photo.description }}</p>
+  @if (isLoading && photos.length === 0) {
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+      <div class="spinner-border color-violet text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading || photos.length > 0) {
+    <div class="d-flex justify-content-between align-items-center my-3">
+      <h1 class="text-white">Июль, 2022</h1>
+      <button routerLink="/adding" class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
+        <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
+        <span class="button-text">Добавить фото</span>
+      </button>
+    </div>
+    <div class="row justify-content-start" id="photos-container">
+      @for (photo of photos; track photo.ID) {
+        <div class="col-6 col-md-4 col-lg-3 mb-4 px-0">
+          <div class="card text-bg-dark h-100 rounded-5 cursor-pointer">
+            <div routerLink="/picture" class="card-img-container position-relative rounded-5" style="background-color: rgba(0, 0, 0, 0);">
+              <img [src]="'assets/' + photo.Path_to_photography" class="card-img img-fluid" alt="{{ photo.Name }}">
+              <div class="card-img-overlay d-flex flex-column justify-content-end overlay">
+                <h5 class="card-title fs-6-5 text-truncate">{{ photo.Name }}</h5>
+                <p class="card-text fs-7">{{ photo.Date_created }}</p>
+              </div>
             </div>
           </div>
         </div>
+      }
+    </div>
+    @if (hasMorePhotos) {
+      <div class="d-flex justify-content-center my-3">
+        @if (isLoadingMore) {
+          <div class="spinner-border button-spinner color-violet text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        }
+        @if (!isLoadingMore) {
+          <button (click)="loadMore()" class="btn btn-outline-violet btn-lg px-4 py-3 w-100 fw-semibold">
+            <fa-icon [icon]="faAngleDown" class="fa-solid pe-2"></fa-icon>Показать еще</button>
+        }
       </div>
     }
-  </div>
-  <div class="d-flex justify-content-center my-3">
-    <button class="btn btn-outline-violet btn-lg px-4 py-3 w-100 fw-semibold">
-      <fa-icon [icon]="faAngleDown" class="fa-solid pe-2"></fa-icon>Показать еще</button>
-  </div>
+  }
 </div>

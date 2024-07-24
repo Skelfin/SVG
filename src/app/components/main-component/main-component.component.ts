@@ -1,38 +1,62 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
+import { PhotoService } from '../../services/photo.service';
+import { Photo } from '../../types/photo';
 
 @Component({
   selector: 'app-main-component',
   standalone: true,
   imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './main-component.component.html',
-  styleUrl: './main-component.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./main-component.component.scss'],
+  providers: [DatePipe]
 })
 export class MainComponentComponent implements OnInit {
   faPlus = faPlus;
   faAngleDown = faAngleDown;
-  photos = [
-    { id: 1, url: '3.png', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
-    { id: 2, url: '4.png', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },
-    { id: 3, url: '5.jpg', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
-    // { id: 4, url: '2.png', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },
-    { id: 5, url: 'Home.jpg', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
-    { id: 6, url: 'test.jpg', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },
-    { id: 7, url: 'test3.jpg', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
-    // { id: 8, url: 'path/to/photo2.jpg', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },
-    // { id: 9, url: 'path/to/photo1.jpg', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
-    // { id: 10, url: 'path/to/photo2.jpg', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },
-    // { id: 11, url: 'path/to/photo1.jpg', title: 'July. Summer butterflies.', description: 'Добавлено 15 августа' },
-    // { id: 12, url: 'path/to/photo2.jpg', title: 'Summer butterflies.', description: 'Добавлено 15 августа' },
-    // Добавьте остальные фото аналогичным образом
-  ];
 
-  constructor() { }
+  photos: Photo[] = [];
+  lastId: number = 0;
+  hasMorePhotos: boolean = true;
+  isLoading: boolean = true;
+  isLoadingMore: boolean = false;
+
+  constructor(private photoService: PhotoService, private datePipe: DatePipe) {}
 
   ngOnInit(): void {
+    this.loadPhotos();
+  }
+
+  loadPhotos(): void {
+    this.photoService.getPhotos(this.lastId).subscribe((newPhotos: Photo[]) => {
+      if (newPhotos.length > 0) {
+        newPhotos.forEach(photo => {
+          photo.Date_created = this.datePipe.transform(photo.Date_created, 'd MMMM y', 'ru-RU')!;
+        });
+        this.photos = [...this.photos, ...newPhotos];
+        this.lastId = newPhotos[newPhotos.length - 1].ID;
+        this.checkForMorePhotos();
+      } else {
+        this.hasMorePhotos = false;
+      }
+      this.isLoading = false;
+      this.isLoadingMore = false;
+    });
+  }
+
+  loadMore(): void {
+    this.isLoadingMore = true;
+    this.loadPhotos();
+  }
+
+  checkForMorePhotos(): void {
+    this.photoService.getPhotos(this.lastId).subscribe((newPhotos: Photo[]) => {
+      if (newPhotos.length === 0) {
+        this.hasMorePhotos = false;
+      }
+    });
   }
 }
