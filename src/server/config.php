@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -20,5 +20,3 @@ try {
 } catch (PDOException $exception) {
     die();
 }
-
-?>

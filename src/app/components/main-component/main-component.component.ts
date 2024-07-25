@@ -19,7 +19,7 @@ export class MainComponentComponent implements OnInit {
   faAngleDown = faAngleDown;
 
   photos: Photo[] = [];
-  lastId: number = 0;
+  lastId: number = Number.MAX_SAFE_INTEGER;
   hasMorePhotos: boolean = true;
   isLoading: boolean = true;
   isLoadingMore: boolean = false;
