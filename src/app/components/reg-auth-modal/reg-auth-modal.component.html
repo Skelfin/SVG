@@ -1,13 +1,17 @@
-<div class="modal fade user-select-none" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+<app-toasts></app-toasts>
+<div class="modal fade user-select-none" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content rounded-4">
       <div class="modal-header d-flex justify-content-center">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
-            <a class="nav-link active" id="register-tab" data-bs-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="true">Регистрация</a>
+            <a class="nav-link active" id="register-tab" data-bs-toggle="tab" href="#register" role="tab"
+              aria-controls="register" aria-selected="true">Регистрация</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="login-tab" data-bs-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false">Авторизация</a>
+            <a class="nav-link" id="login-tab" data-bs-toggle="tab" href="#login" role="tab" aria-controls="login"
+              aria-selected="false">Авторизация</a>
           </li>
         </ul>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -15,52 +19,118 @@
       <div class="modal-body">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
-            <form>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()">
               <div class="mb-3">
-                <input type="text" class="form-control form-control-lg" id="name" placeholder="Ваше имя" required>
+                <input type="text" class="form-control form-control-lg" [class.error]="registerForm.controls['name'].invalid 
+                && registerForm.controls['name'].value 
+                && (registerForm.controls['name'].dirty
+                || registerForm.controls['name'].touched)" id="name" placeholder="Ваше имя" formControlName="name">
+                @if (registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty
+                || registerForm.controls['name'].touched)) {
+                @if (registerForm.controls['name'].hasError('leadingWhitespace')) {
+                <div class="text-danger">
+                  Первым символом не должен быть пробел
+                </div>
+                } @else if (registerForm.controls['name'].hasError('pattern')) {
+                <div class="text-danger">
+                  Имя должно содержать только русские буквы, пробелы и дефисы
+                </div>
+                }
+                }
               </div>
               <div class="row g-3 mb-3">
                 <div class="col-6">
-                  <input type="email" class="form-control form-control-lg" id="email" placeholder="Email" required>
+                  <input type="email" class="form-control form-control-lg" [class.error]="registerForm.controls['email'].invalid && registerForm.controls['email'].touched &&
+                  registerForm.controls['email'].hasError('email')" id="email" placeholder="Email"
+                    formControlName="email" (blur)="registerForm.controls['email'].markAsTouched()">
+                  @if (registerForm.controls['email'].invalid && registerForm.controls['email'].touched &&
+                  registerForm.controls['email'].hasError('email')) {
+                  <div class="text-danger">
+                    Введите корректный email
+                  </div>
+                  }
                 </div>
+
                 <div class="col-6">
-                  <input type="tel" class="form-control form-control-lg" id="phone" placeholder="Мобильный телефон" required>
+                  <input type="text" class="form-control form-control-lg" [class.error]="registerForm.controls['phone'].invalid 
+                  && registerForm.controls['phone'].touched" id="phone" placeholder="Телефон" formControlName="phone"
+                    (focus)="onPhoneFocus()" (input)="onPhoneInput($event)"
+                    (blur)="registerForm.controls['phone'].markAsTouched()" mask="+0 (000) 000-00-00">
+                  @if (registerForm.controls['phone'].invalid && registerForm.controls['phone'].touched) {
+                  <div class="text-danger">
+                    Введите корректный моб. тел.
+                  </div>
+                  }
                 </div>
               </div>
-              <div class="row g-3 mb-3">
+              <div class="row g-3">
                 <div class="col-6">
-                  <input type="password" class="form-control form-control-lg" id="password" placeholder="Пароль" required>
+                  <input type="password" class="form-control form-control-lg" [class.error]="(registerForm.controls['password'].hasError('minlength')
+                  || registerForm.controls['password'].hasError('maxlength')
+                  || registerForm.controls['password'].hasError('onlyDigits'))
+                  && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)"
+                    id="password" placeholder="Пароль" formControlName="password">
                 </div>
                 <div class="col-6">
-                  <input type="password" class="form-control form-control-lg" id="confirmPassword" placeholder="Повторите пароль" required>
+                  <input type="password" class="form-control form-control-lg" [class.error]="registerForm.hasError('passwordMismatch')
+                  && registerForm.controls['confirmPassword'].touched" id="confirmPassword"
+                    placeholder="Повторите пароль" formControlName="confirmPassword"
+                    (blur)="registerForm.controls['confirmPassword'].markAsTouched()">
                 </div>
+                @if ((registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty ||
+                registerForm.controls['password'].touched)) ||
+                (registerForm.controls['confirmPassword'].invalid && registerForm.controls['confirmPassword'].touched))
+                {
+
+                @if (registerForm.controls['password'].hasError('minlength') ||
+                registerForm.controls['password'].hasError('maxlength')) {
+                <div class="text-danger m-0">
+                  Пароль должен быть от 6 до 20 символов
+                </div>
+                } @else if (registerForm.controls['password'].hasError('onlyDigits')) {
+                <div class="text-danger m-0">
+                  Пароль не должен состоять только из цифр
+                </div>
+                } @else if (registerForm.hasError('passwordMismatch')) {
+                <div class="text-danger m-0">
+                  Пароли должны совпадать
+                </div>
+                }
+                }
               </div>
-              <div class="form-check mb-3 d-flex justify-content-center">
-                <input type="checkbox" class="form-check-input custom-checkbox me-2" id="dataProcessingAgreement" required>
+              <div class="form-check mt-3 mb-3 d-flex justify-content-center">
+                <input type="checkbox" class="form-check-input custom-checkbox me-2" id="dataProcessingAgreement"
+                  formControlName="dataProcessingAgreement">
                 <label class="form-check-label" for="dataProcessingAgreement">
                   Согласен на обработку <a href="#" class="personal-data-link">персональных данных</a>
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary-violet btn-lg rounded-3 w-100">Зарегистрироваться</button>
+              <button type="submit" class="btn btn-primary-violet btn-lg rounded-3 w-100"
+                [disabled]="registerForm.invalid">Зарегистрироваться</button>
               <p class="text-center mb-0 mt-3">
-                <fa-icon [icon]="faCircleExclamation" class="fa-solid" style="color: #9747FF" ></fa-icon>
-                Все поля обязательны для заполнения</p>
+                <fa-icon [icon]="faCircleExclamation" class="fa-solid" style="color: #9747FF"></fa-icon>
+                Все поля обязательны для заполнения
+              </p>
             </form>
           </div>
           <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab">
-            <form>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
               <div class="row g-3 mb-3">
                 <div class="col-6">
-                  <input type="email" class="form-control form-control-lg" id="loginEmail" placeholder="Email" required>
+                  <input type="email" class="form-control form-control-lg" id="loginEmail" placeholder="Email"
+                    formControlName="loginEmail">
                 </div>
                 <div class="col-6">
-                  <input type="password" class="form-control form-control-lg" id="loginPassword" placeholder="Пароль" required>
+                  <input type="password" class="form-control form-control-lg" id="loginPassword" placeholder="Пароль"
+                    formControlName="loginPassword">
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary-violet btn-lg rounded-3 w-100">Войти</button>
+              <button type="submit" class="btn btn-primary-violet btn-lg rounded-3 w-100"
+                [disabled]="loginForm.invalid">Войти</button>
               <p class="text-center mb-0 mt-3">
-                <fa-icon [icon]="faCircleExclamation" class="fa-solid" style="color: #9747FF" ></fa-icon>
-                Все поля обязательны для заполнения</p>
+                <fa-icon [icon]="faCircleExclamation" class="fa-solid" style="color: #9747FF"></fa-icon>
+                Все поля обязательны для заполнения
+              </p>
             </form>
           </div>
         </div>

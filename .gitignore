@@ -3,8 +3,9 @@
 # Ignore project.ini in .osp folder
 .osp/project.ini
 
-# Ignore .env file in server folder
+# Ignore files in server folder
 src/server/.env
+src/server/.php-cs-fixer.cache
 
 # Ignore public and assets folders
 src/assets/

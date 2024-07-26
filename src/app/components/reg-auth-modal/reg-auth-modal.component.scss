@@ -36,6 +36,16 @@
   border-width: 2px; /* Увеличение ширины рамки при фокусе */
 }
 
+.form-control.error {
+  border-color: #ff4d4d !important; /* Красный цвет обводки */
+  box-shadow: 0 0 0 .2rem rgba(255, 77, 77, 0.25) !important; /* Красный цвет тени */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Анимация */
+}
+
+.form-control {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Анимация */
+}
+
 .btn-lg {
   padding: .5rem 1rem;
   font-size: 1.25rem;
@@ -103,7 +113,7 @@
 }
 
 .custom-checkbox {
-  border: 2px solid #393939;
+  border: 2px solid #9747FF;
 }
 
 .custom-checkbox:focus {

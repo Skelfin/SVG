@@ -10,7 +10,9 @@ import { Photo } from '../types/photo';
 export class PhotoService {
   constructor(private http: HttpClient) {}
 
+  private getPhotosUrl = `${API_URL}/get_photos.php`;
+
   getPhotos(lastId: number): Observable<Photo[]> {
-    return this.http.get<Photo[]>(`${API_URL}/get_photos.php?lastId=${lastId}`);
+    return this.http.get<Photo[]>(`${this.getPhotosUrl}?lastId=${lastId}`);
   }
 }
