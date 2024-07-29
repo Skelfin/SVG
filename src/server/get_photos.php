@@ -20,5 +20,14 @@ foreach ($photos as &$photo) {
     $photo['Date_created'] = htmlspecialchars($photo['Date_created'], ENT_QUOTES, 'UTF-8');
 }
 
+$response = array_map(function ($photo) {
+    return [
+        'ID'                  => $photo['ID'],
+        'Name'                => $photo['Name'],
+        'Path_to_photography' => $photo['Path_to_photography'],
+        'Date_created'        => $photo['Date_created']
+    ];
+}, $photos);
+
 header('Content-Type: application/json');
-echo json_encode($photos);
+echo json_encode($response);

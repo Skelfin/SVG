@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainComponent } from './pages/main/main.component';
 import { PicDetailComponent } from './pages/pic-detail/pic-detail.component';
 import { PicCreateComponent } from './pages/pic-create/pic-create.component';
+import { AuthGuard } from './guards/adding';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,7 @@ export const routes: Routes = [
         path: 'adding',
         component: PicCreateComponent,
         title: 'Новая картинка',
+        canActivate: [AuthGuard]
     },
 
     {

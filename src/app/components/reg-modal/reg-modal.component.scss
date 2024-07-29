@@ -1,0 +1,123 @@
+@media (min-width: 576px) {
+  .modal {
+    --bs-modal-margin: 0;
+    --bs-modal-box-shadow: var(--bs-box-shadow);
+  }
+}
+
+.modal-dialog {
+  max-width: 585px;
+}
+
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  min-height: calc(100% - 1rem);
+}
+
+.modal-content {
+  padding: 20px 20px 10px 20px;
+  border-radius: 10px;
+}
+
+.form-control-lg {
+  height: calc(1.5em + 1rem + 2px);
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: .3rem;
+  border-color: #9747FF;
+  border-width: 2px;
+}
+
+.form-control-lg:focus {
+  border-color: #9747FF;
+  box-shadow: 0 0 0 .2rem rgba(151, 71, 255, 0.25);
+  border-width: 2px;
+}
+
+.form-control.error {
+  border-color: #ff4d4d !important;
+  box-shadow: 0 0 0 .2rem rgba(255, 77, 77, 0.25) !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-lg {
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: .3rem;
+}
+
+.nav-tabs {
+  border-bottom: none;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+.nav-tabs .nav-link {
+  font-size: 2rem; 
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.nav-tabs .nav-link.active {
+  color: #000;
+  font-weight: bold;
+  border: none;
+}
+
+.nav-tabs .nav-link {
+  margin-bottom: -1px;
+  border: none;
+}
+
+.nav-tabs .nav-link.active {
+  border: none;
+}
+
+.modal-header {
+  border-bottom: none;
+  position: relative;
+  padding-bottom: 0;
+}
+
+.modal-body {
+  padding: 10px 16px 10px 16px;
+}
+
+.btn-close {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+.personal-data-link {
+  color: #9747FF;
+  text-decoration: none;
+}
+
+.personal-data-link:hover {
+  text-decoration: underline;
+}
+
+.custom-checkbox:checked {
+  background-color: #9747FF;
+  border: 2px solid #9747FF;
+
+}
+
+.custom-checkbox {
+  border: 2px solid #9747FF;
+}
+
+.custom-checkbox:focus {
+  border-color: #9747FF;
+  box-shadow: 0 0 0 .2rem rgba(151, 71, 255, 0.25);
+  border-width: 2px;
+}

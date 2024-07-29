@@ -1,0 +1,18 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+    <div class="row g-3 mb-3">
+      <div class="col-6">
+        <input type="email" class="form-control form-control-lg" id="loginEmail" placeholder="Email"
+          formControlName="loginEmail">
+      </div>
+      <div class="col-6">
+        <input type="password" class="form-control form-control-lg" id="loginPassword" placeholder="Пароль"
+          formControlName="loginPassword">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary-violet btn-lg rounded-3 w-100"
+      [disabled]="loginForm.invalid">Войти</button>
+    <p class="text-center mb-0 mt-3">
+      <fa-icon [icon]="faCircleExclamation" class="fa-solid" style="color: #9747FF"></fa-icon>
+      Все поля обязательны для заполнения
+    </p>
+  </form>

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from 'bootstrap';
@@ -6,37 +6,29 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule, ValidationErro
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Register } from '../../types/register';
 import { RegisterService } from '../../services/register.service';
-import { ToastsComponent } from "../toasts/toasts.component";
+import { AuthComponent } from "../auth-modal/auth-modal.component";
 
 @Component({
-  selector: 'app-reg-auth-modal',
+  selector: 'app-reg-modal',
   standalone: true,
-  imports: [FontAwesomeModule, ReactiveFormsModule, NgxMaskDirective, NgxMaskPipe, ToastsComponent],
-  templateUrl: './reg-auth-modal.component.html',
-  styleUrls: ['./reg-auth-modal.component.scss'],
+  imports: [FontAwesomeModule, ReactiveFormsModule, NgxMaskDirective, NgxMaskPipe, AuthComponent],
+  templateUrl: './reg-modal.component.html',
+  styleUrls: ['./reg-modal.component.scss'],
   providers: [provideNgxMask()]
 })
-export class RegistrationAndAuthorizationModalComponent {
+export class RegistrationModalComponent {
   faCircleExclamation = faCircleExclamation;
   registerForm: FormGroup;
-  loginForm: FormGroup;
-
-  @ViewChild(ToastsComponent) toastComponent!: ToastsComponent;
 
   constructor(private registerService: RegisterService) {
     this.registerForm = new FormGroup({
-      name: new FormControl('Данил', [Validators.required, this.nameValidator()]),
-      email: new FormControl('fjaf@sdada.com', [Validators.required, Validators.email]),
-      phone: new FormControl('+7 (094) 687-21-56', [Validators.required, this.phoneValidator()]),
-      password: new FormControl('555rtp', [Validators.required, Validators.minLength(6), Validators.maxLength(20), this.passwordValidator()]),
-      confirmPassword: new FormControl('555rtp', [Validators.required]),
+      name: new FormControl('', [Validators.required, this.nameValidator()]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl('', [Validators.required, this.phoneValidator()]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20), this.passwordValidator()]),
+      confirmPassword: new FormControl('', [Validators.required]),
       dataProcessingAgreement: new FormControl(false, Validators.requiredTrue)
     }, { validators: this.passwordMatchValidator });
-
-    this.loginForm = new FormGroup({
-      loginEmail: new FormControl('', [Validators.required, Validators.email]),
-      loginPassword: new FormControl('', [Validators.required])
-    });
   }
 
   showRegister(): void {
@@ -57,7 +49,6 @@ export class RegistrationAndAuthorizationModalComponent {
       if (!value) {
         return null; 
       }
-      // Проверка на первый пробел
       if (value.startsWith(' ')) {
         return { leadingWhitespace: true };
       }
@@ -137,15 +128,8 @@ export class RegistrationAndAuthorizationModalComponent {
         Password: this.registerForm.get('password')!.value,
         ConfirmPassword: this.registerForm.get('confirmPassword')!.value
       };
-      this.registerService.register(registerData, this.toastComponent);
+      this.registerService.register(registerData);
     }
   }
 
-  onSubmitLogin() {
-    if (this.loginForm.valid) {
-      console.log('Form Data:', this.loginForm.value);
-    } else {
-      console.log('Form is not valid.');
-    }
-  }
 }

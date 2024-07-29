@@ -6,3 +6,10 @@ export interface Photo {
   Rating: number;
   Number_of_ratings: number;
 }
+
+export interface MainPhoto {
+  ID: number;
+  Name: string;
+  Path_to_photography: string;
+  Date_created: string;
+}

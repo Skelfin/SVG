@@ -3,7 +3,7 @@
         'name' => 'danil/server',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '8683220d7c5aaab4bfdb6feae3ff619435cd640f',
+        'reference' => '7e041d25925e316b40f0401bf4ffa11b3c049506',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -49,7 +49,7 @@
         'danil/server' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '8683220d7c5aaab4bfdb6feae3ff619435cd640f',
+            'reference' => '7e041d25925e316b40f0401bf4ffa11b3c049506',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -72,6 +72,15 @@
             'install_path' => __DIR__ . '/../fidry/cpu-core-counter',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'firebase/php-jwt' => array(
+            'pretty_version' => 'v6.10.1',
+            'version' => '6.10.1.0',
+            'reference' => '500501c2ce893c824c801da135d02661199f60c5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'friendsofphp/php-cs-fixer' => array(
             'pretty_version' => 'v3.60.0',

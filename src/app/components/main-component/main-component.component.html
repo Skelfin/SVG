@@ -10,10 +10,18 @@
   @if (!isLoading || photos.length > 0) {
     <div class="d-flex justify-content-between align-items-center my-3">
       <h1 class="text-white">Июль, 2022</h1>
-      <button routerLink="/adding" class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
-        <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
-        <span class="button-text">Добавить фото</span>
-      </button>
+      @if (isAuthenticated) {
+        <button routerLink="/adding" class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
+          <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
+          <span class="button-text">Добавить фото</span>
+        </button>
+      }@else {
+        <button data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showLogin()"
+         class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
+          <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
+          <span class="button-text">Добавить фото</span>
+        </button>
+      } 
     </div>
     <div class="row justify-content-start" id="photos-container">
       @for (photo of photos; track photo.ID) {
@@ -45,3 +53,5 @@
     }
   }
 </div>
+
+<app-reg-modal #regAuthModal></app-reg-modal>

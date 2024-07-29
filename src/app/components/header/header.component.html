@@ -9,15 +9,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showRegister()">Регистрация</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showLogin()">Вход</a>
-        </li>
+        @if (!isAuthenticated) {
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showRegister()">Регистрация</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showLogin()">Вход</a>
+          </li>
+        }@else {
+          <li class="nav-item">
+            <span class="nav-link">Привет, {{ userName }}</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" (click)="logout()">Выход</a>
+          </li>
+        }
       </ul>
     </div>
   </div>
 </nav>
 
-<app-reg-auth-modal #regAuthModal></app-reg-auth-modal>
+<app-reg-modal #regAuthModal></app-reg-modal>

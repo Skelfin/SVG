@@ -1,16 +1,21 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 require 'config.php';
-session_start();
+require __DIR__ . '/vendor/autoload.php';
+use Firebase\JWT\JWT;
 
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json');
 
-function validateEmail(string $email): bool {
+function validateEmail(string $email): bool
+{
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
-function sanitizeString(string $str): string {
+function sanitizeString(string $str): string
+{
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
@@ -27,12 +32,12 @@ if (empty($name) || empty($email) || empty($phone) || empty($password) || empty(
     exit();
 }
 
-if (!validateEmail($email)) {
+if (! validateEmail($email)) {
     echo json_encode(['status' => 'error', 'message' => 'Некорректный email']);
     exit();
 }
 
-$stmt = $pdo->prepare('SELECT COUNT(*) FROM Users WHERE email = :email');
+$stmt = $pdo->prepare('SELECT COUNT(*) FROM Users WHERE Email = :email');
 $stmt->execute(['email' => $email]);
 if ($stmt->fetchColumn() > 0) {
     echo json_encode(['status' => 'error', 'message' => 'Пользователь с таким email уже зарегистрирован']);
@@ -40,12 +45,12 @@ if ($stmt->fetchColumn() > 0) {
 }
 
 $phonePattern = '/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/';
-if (strlen($phone) > 18 || !preg_match($phonePattern, $phone)) {
+if (strlen($phone) > 18 || ! preg_match($phonePattern, $phone)) {
     echo json_encode(['status' => 'error', 'message' => 'Телефон должен быть не длиннее 18 символов и соответствовать формату +7 (123) 456-78-90']);
     exit();
 }
 
-if (!preg_match('/^[а-яА-ЯёЁ\s-]+$/u', $name) || preg_match('/^\s/', $name)) {
+if (! preg_match('/^[а-яА-ЯёЁ\s-]+$/u', $name) || preg_match('/^\s/', $name)) {
     echo json_encode(['status' => 'error', 'message' => 'Имя должно содержать только русские буквы, пробелы и дефисы, и не начинаться с пробела']);
     exit();
 }
@@ -62,14 +67,22 @@ if ($password !== $confirmPassword) {
 
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-$stmt = $pdo->prepare('INSERT INTO Users (name, email, phone, password) VALUES (:name, :email, :phone, :password)');
+$stmt = $pdo->prepare('INSERT INTO Users (Name, Email, Phone, Password) VALUES (:name, :email, :phone, :password)');
 $stmt->execute([
-    'name' => $name,
-    'email' => $email,
-    'phone' => $phone,
+    'name'     => $name,
+    'email'    => $email,
+    'phone'    => $phone,
     'password' => $hashedPassword
 ]);
 
-$_SESSION['user'] = ['name' => $name, 'email' => $email];
+// $userId = $pdo->lastInsertId();
 
-echo json_encode(['status' => 'success', 'message' => 'Регистрация успешна']);
+$payload = [
+    // 'ID' => $userId,
+    'name' => $name,
+    'exp'  => time() + 30
+];
+
+$jwt = JWT::encode($payload, JWT_KEY, 'HS256');
+
+echo json_encode(['status' => 'success', 'message' => 'Регистрация успешна', 'token' => $jwt]);

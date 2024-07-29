@@ -62,6 +62,7 @@ class ComposerStaticInit0ef68f6a64de66e4a18fd1ae6cbdd7b5
         ),
         'F' => 
         array (
+            'Firebase\\JWT\\' => 13,
             'Fidry\\CpuCoreCounter\\' => 21,
         ),
         'E' => 
@@ -197,6 +198,10 @@ class ComposerStaticInit0ef68f6a64de66e4a18fd1ae6cbdd7b5
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Fidry\\CpuCoreCounter\\' => 
         array (

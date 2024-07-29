@@ -6,3 +6,7 @@ export interface Register {
     ConfirmPassword: string;
   }
   
+export interface Login {
+  Email: string;
+  Password: string;
+}
