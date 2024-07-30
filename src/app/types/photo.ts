@@ -13,3 +13,10 @@ export interface MainPhoto {
   Path_to_photography: string;
   Date_created: string;
 }
+
+export interface UploadPhotoData {
+  name: string;
+  image: File;
+  token: string;
+  onComplete: () => void;
+}

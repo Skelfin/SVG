@@ -95,6 +95,10 @@
   position: absolute;
   right: 20px;
   top: 10px;
+
+  &:hover {
+    box-shadow: 0 0 0 .2rem rgba(151, 71, 255, 0.605);
+  }
 }
 
 .personal-data-link {

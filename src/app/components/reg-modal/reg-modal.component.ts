@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { Tab } from 'bootstrap';
@@ -55,12 +55,6 @@ export class RegistrationModalComponent {
       const valid = /^[а-яА-ЯёЁ\s-]+$/.test(value);
       return valid ? null : { pattern: true };
     };
-  }
-
-  noWhitespaceValidator(control: AbstractControl): ValidationErrors | null {
-    const isWhitespace = (control.value || '').trim().length === 0;
-    const isValid = !isWhitespace;
-    return isValid ? null : { whitespace: true };
   }
 
   passwordValidator(): ValidatorFn {

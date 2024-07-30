@@ -31,13 +31,25 @@
         </div>
       </div>
       <div class="col-md-7 col-lg-8 col-xl-9 col-xxl-9">
-        <form>
+        <form [formGroup]="photoForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
-            <input type="text" class="form-control input-title fw-bold border-0" id="description" placeholder="Описание">
+            <input type="text" formControlName="name" class="form-control input-title fw-bold border-0" id="name_photo" placeholder="Описание">
+            @if (photoForm.controls['name'].invalid && (photoForm.controls['name'].dirty || photoForm.controls['name'].touched)) {
+              @if (photoForm.controls['name'].hasError('leadingSpace')) {
+                <div class="text-danger">
+                  Первым символом не должен быть пробел
+                </div>
+              }
+            }
           </div>
           <div class="row">
             <div class="col-lg-auto mb-3 mb-lg-0">
-              <button type="submit" class="btn btn-primary-violet btn-lg w-100 w-lg-auto px-4 py-3 fw-semibold">Опубликовать фотографию</button>
+              <button [disabled]="!photoForm.valid || isSubmitting" type="submit" class="btn btn-primary-violet btn-lg w-100 w-lg-auto px-4 py-3 fw-semibold d-flex align-items-center justify-content-center">
+                <div class="spinner-container" [class.show]="isSubmitting">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                </div>
+                Опубликовать фотографию
+              </button>
             </div>
             <div class="col-lg d-flex align-items-center">
               <div class="text-secondary mt-2">

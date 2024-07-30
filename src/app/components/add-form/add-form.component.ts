@@ -1,11 +1,16 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faCircleExclamation, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { PhotoService } from '../../services/photo.service';
+import { jwtDecode } from 'jwt-decode';
+import { CommonModule } from '@angular/common';
+import { UploadPhotoData } from '../../types/photo';
 
 @Component({
   selector: 'app-add-form',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, ReactiveFormsModule, CommonModule],
   templateUrl: './add-form.component.html',
   styleUrls: ['./add-form.component.scss']
 })
@@ -18,6 +23,30 @@ export class AddFormComponent implements OnInit, OnDestroy {
   imageSrc: string | ArrayBuffer | null = null;
   isDraggingOver: boolean = false;
   isDraggingFile: boolean = false;
+  isSubmitting: boolean = false;
+  photoForm: FormGroup;
+  jwtToken!: string;
+
+  constructor(private photoService: PhotoService) {
+    this.photoForm = new FormGroup({
+      name: new FormControl('', [Validators.required, this.noLeadingSpaceValidator()]),
+      image: new FormControl(null, [Validators.required])
+    });
+
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      this.jwtToken = token;
+    }
+  }
+
+  private noLeadingSpaceValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value && control.value[0] === ' ') {
+        return { 'leadingSpace': true };
+      }
+      return null;
+    };
+  }
 
   ngOnInit() {
     this.toggleGlobalDragEvents(true);
@@ -102,7 +131,11 @@ export class AddFormComponent implements OnInit, OnDestroy {
 
   private readFile(file: File): void {
     const reader = new FileReader();
-    reader.onload = e => this.imageSrc = reader.result;
+    reader.onload = e => {
+      this.imageSrc = reader.result;
+      this.photoForm.patchValue({ image: file });
+      this.photoForm.get('image')?.updateValueAndValidity();
+    };
     reader.readAsDataURL(file);
   }
 
@@ -126,5 +159,22 @@ export class AddFormComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.imageSrc = null;
     this.fileInput.nativeElement.value = '';
+    this.photoForm.patchValue({ image: null });
+    this.photoForm.get('image')?.updateValueAndValidity();
+  }
+
+  onSubmit(): void {
+    if (this.photoForm.valid) {
+      this.isSubmitting = true;
+      const uploadData: UploadPhotoData = {
+        name: this.photoForm.get('name')!.value,
+        image: this.photoForm.get('image')!.value,
+        token: this.jwtToken!,
+        onComplete: () => {
+          this.isSubmitting = false;
+        }
+      };
+      this.photoService.uploadPhoto(uploadData);
+    }
   }
 }

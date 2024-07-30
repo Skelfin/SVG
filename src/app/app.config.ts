@@ -18,6 +18,7 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       timeOut: 5000,
       progressBar: true,
+      toastClass: 'ngx-toastr'
     }))
   ],
 };

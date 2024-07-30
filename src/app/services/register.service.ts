@@ -26,7 +26,7 @@ export class RegisterService {
         if (response.status === 'success' && response.token) {
           localStorage.setItem('jwtToken', response.token);
           this.isAuthenticatedSubject.next(true);
-          window.location.reload()
+          window.location.reload();
           this.router.navigate(['/']);
         } else {
           this.toastr.error(response.message, 'Ошибка');
@@ -40,7 +40,7 @@ export class RegisterService {
         if (response.status === 'success' && response.token) {
           localStorage.setItem('jwtToken', response.token);
           this.isAuthenticatedSubject.next(true);
-          window.location.reload()
+          window.location.reload();
           this.router.navigate(['/']);
         } else {
           this.toastr.error(response.message, 'Ошибка');
@@ -52,7 +52,7 @@ export class RegisterService {
     localStorage.removeItem('jwtToken');
     this.isAuthenticatedSubject.next(false);
     this.toastr.success('Вы успешно вышли', 'Успех');
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   isAuthenticated(): boolean {

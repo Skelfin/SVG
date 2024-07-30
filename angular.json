@@ -31,7 +31,8 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets"
+              "src/assets",
+              "src/server/photos"
             ],
             "styles": [
               "src/styles.scss",
