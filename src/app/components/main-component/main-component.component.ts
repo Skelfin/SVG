@@ -26,7 +26,8 @@ export class MainComponentComponent implements OnInit {
   faAngleDown = faAngleDown;
 
   photos: MainPhoto[] = [];
-  lastId: number = Number.MAX_SAFE_INTEGER;
+  groupedPhotos: { monthYear: string, photos: MainPhoto[] }[] = [];
+  lastId: string = 'initial';
   hasMorePhotos: boolean = true;
   isLoading: boolean = true;
   isLoadingMore: boolean = false;
@@ -48,37 +49,63 @@ export class MainComponentComponent implements OnInit {
     this.loadPhotos();
   }
 
+
   loadPhotos(): void {
-    this.photoService.getPhotos(this.lastId).subscribe((newPhotos: MainPhoto[]) => {
-      if (newPhotos.length > 0) {
-        newPhotos.forEach((photo) => {
-          photo.Date_created = this.datePipe.transform(
-            photo.Date_created,
-            'd MMMM y',
-            'ru-RU'
-          )!;
-        });
-        this.photos = [...this.photos, ...newPhotos];
-        this.lastId = newPhotos[newPhotos.length - 1].ID;
-        this.checkForMorePhotos();
-      } else {
-        this.hasMorePhotos = false;
-      }
+    this.isLoading = true;
+    const lastIdParam = this.lastId !== 'initial' ? this.lastId : '';
+    this.photoService.getPhotos(lastIdParam).subscribe((newPhotos: MainPhoto[]) => {
+      this.processLoadedPhotos(newPhotos);
       this.isLoading = false;
-      this.isLoadingMore = false;
     });
   }
 
   loadMore(): void {
+    if (!this.hasMorePhotos) return;
+
     this.isLoadingMore = true;
-    this.loadPhotos();
+    const lastIdParam = this.lastId !== 'initial' ? this.lastId : '';
+    this.photoService.getPhotos(lastIdParam).subscribe((newPhotos: MainPhoto[]) => {
+      this.processLoadedPhotos(newPhotos);
+      this.isLoadingMore = false;
+    });
   }
 
-  checkForMorePhotos(): void {
-    this.photoService.getPhotos(this.lastId).subscribe((newPhotos: MainPhoto[]) => {
-      if (newPhotos.length === 0) {
-        this.hasMorePhotos = false;
+  private processLoadedPhotos(newPhotos: MainPhoto[]): void {
+    if (newPhotos.length > 0) {
+      this.photos = [...this.photos, ...newPhotos];
+      this.lastId = this.photos[this.photos.length - 1].ID;
+      this.hasMorePhotos = newPhotos.length >= 12;
+      this.groupPhotosByMonthYear();
+    } else {
+      this.hasMorePhotos = false;
+    }
+  }
+
+  private groupPhotosByMonthYear(): void {
+    const grouped: { [key: string]: MainPhoto[] } = {};
+
+    this.photos.forEach(photo => {
+      const date = new Date(photo.Date_created);
+      const monthYear = this.formatMonthYear(date);
+      
+      if (grouped[monthYear]) {
+        grouped[monthYear].push(photo);
+      } else {
+        grouped[monthYear] = [photo];
       }
     });
+
+    this.groupedPhotos = Object.keys(grouped).map(key => ({
+      monthYear: key,
+      photos: grouped[key]
+    }));
+  }
+
+  private formatMonthYear(date: Date): string {
+    const formattedDate = this.datePipe.transform(date, 'LLLL, y', 'ru-RU');
+    if (formattedDate) {
+      return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    }
+    return 'Дата неизвестна';
   }
 }

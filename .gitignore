@@ -6,9 +6,7 @@
 # Ignore files in server folder
 src/server/.env
 src/server/.php-cs-fixer.cache
-
-# Ignore public and assets folders
-src/assets/
+src/server/photos/
 
 # Compiled output
 /dist

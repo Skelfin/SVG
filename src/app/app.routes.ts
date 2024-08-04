@@ -12,7 +12,7 @@ export const routes: Routes = [
     },
 
     {
-        path: 'picture',
+        path: 'picture/:id',
         component: PicDetailComponent,
         title: 'Название картинки',
     },

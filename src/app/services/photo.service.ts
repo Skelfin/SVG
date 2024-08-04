@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_URL } from '../constants/constants';
-import { MainPhoto, UploadPhotoData } from '../types/photo';
+import { MainPhoto, Photo, UploadPhotoData } from '../types/photo';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Status } from '../types/status';
 import { handleTokenExpiration, isTokenExpired } from './token-utils.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,21 @@ export class PhotoService {
   constructor(private http: HttpClient, private readonly router: Router, private toastr: ToastrService) {}
 
   private getPhotosUrl = `${API_URL}/get_photos.php`;
+  private getPhotoByIdUrl = `${API_URL}/get_photo.php`;
   private uploadUrl = `${API_URL}/upload_pic.php`;
 
-  getPhotos(lastId: number) {
-    return this.http.get<MainPhoto[]>(`${this.getPhotosUrl}?lastId=${lastId}`);
+  getPhotos(lastId: string) {
+    const url = lastId ? `${this.getPhotosUrl}?lastId=${lastId}` : this.getPhotosUrl;
+    return this.http.get<MainPhoto[]>(url);
+  }
+
+  getPhotoById(id: string): Observable<Photo> {
+    const token = localStorage.getItem('jwtToken');
+    const headers = new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : ''
+    });
+
+    return this.http.get<Photo>(`${this.getPhotoByIdUrl}?id=${id}`, { headers });
   }
 
   uploadPhoto(data: UploadPhotoData) {

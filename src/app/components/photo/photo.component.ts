@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-
-declare var bootstrap: any;
+import { Component, Input } from '@angular/core';
+import { PhotoPath } from '../../types/photo';
 
 @Component({
   selector: 'app-photo',
@@ -10,11 +9,6 @@ declare var bootstrap: any;
   styleUrl: './photo.component.scss'
 })
 export class PhotoComponent {
-  selectedImage!: string;
+  @Input() photo?: PhotoPath;
 
-  openLightbox(image: string) {
-    this.selectedImage = image;
-    const lightboxModal = new bootstrap.Modal(document.getElementById('lightboxModal'));
-    lightboxModal.show();
-  }
 }

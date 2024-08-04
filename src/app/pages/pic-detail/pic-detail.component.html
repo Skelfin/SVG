@@ -1,16 +1,17 @@
 <div class="container-fluid bg-dark-violet d-flex flex-column min-vh-100 user-select-none">
-    <app-header></app-header>
-    <div class="flex-grow-1 container mt-4">
-      <div class="row">
-        <div class="col-lg-5">
-          <app-photo></app-photo>
-        </div>
-        <div class="col-lg-7 ps-4">
-          <app-information></app-information>
-          <app-rating></app-rating>
-        </div>
+  <app-header></app-header>
+  <div class="flex-grow-1 container mt-4">
+    <div class="row">
+      <div class="col-lg-5">
+        <app-photo [photo]="photoPath"></app-photo>
+      </div>
+      <div class="col-lg-7 ps-4">
+        <app-information [photo]="photoData"></app-information>
+        @if (photoRating) {
+          <app-rating [photo]="photoRating"></app-rating>
+        }
       </div>
     </div>
-    <app-footer></app-footer>
   </div>
-  
+  <app-footer></app-footer>
+</div>

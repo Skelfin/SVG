@@ -23,6 +23,8 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
+    "lightbox2": "^2.11.4",
+    "ngx-lightbox": "^3.0.0",
     "ngx-mask": "^18.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

@@ -174,7 +174,9 @@ export class AddFormComponent implements OnInit, OnDestroy {
           this.isSubmitting = false;
         }
       };
-      this.photoService.uploadPhoto(uploadData);
+      setTimeout(() => {
+        this.photoService.uploadPhoto(uploadData);
+      }, 1000);
     }
   }
 }

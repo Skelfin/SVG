@@ -79,7 +79,7 @@ if (count($fileValidator) > 0) {
 }
 
 $targetDir = 'photos/';
-$relativePath = 'src/server/photos/';
+$relativePath = 'server/photos/';
 if (! is_dir($targetDir)) {
     mkdir($targetDir, 0777, true);
 }

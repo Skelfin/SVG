@@ -1,10 +1,13 @@
-<div class="info-header d-flex justify-content-between align-items-center pb-4">
-  <div class="me-3">
-    <h1 class="mb-3">July. Summer butterflies.</h1>
-    <p>Добавлено 11 августа • Константин Константинопольский</p>
+@if (photo) {
+  <div class="info-header d-flex justify-content-between align-items-center pb-4">
+    <div class="me-3 overlay">
+      <h1 class="mb-3 text-truncate">{{ photo.Name }}</h1>
+      <p>Добавлено {{ formattedDate }} • {{ photo.Author }}</p>
+    </div>
+    <button routerLink="/" class="btn btn-outline-violet btn-lg align-self-start fw-semibold nowrap-btn">
+      <fa-icon [icon]="faAngleLeft" class="fa-solid pr-8px fa-sm"></fa-icon>
+      <span class="button-text">Назад</span>
+    </button>
   </div>
-  <button routerLink="" class="btn btn-outline-violet btn-lg align-self-start fw-semibold nowrap-btn">
-    <fa-icon [icon]="faAngleLeft" class="fa-solid pr-8px fa-sm"></fa-icon>
-    <span class="button-text">Назад</span>
-  </button>
-</div>
+  
+}

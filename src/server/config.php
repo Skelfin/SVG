@@ -14,6 +14,7 @@ $db_name = $_ENV['DB_NAME'];
 $username = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASS'];
 $jwt_key = $_ENV['JWT_KEY'];
+$encryption_key = $_ENV['ENCRYPTION_KEY'];
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
@@ -23,3 +24,4 @@ try {
 }
 
 define('JWT_KEY', $jwt_key);
+define('ENCRYPTION_KEY', $encryption_key);

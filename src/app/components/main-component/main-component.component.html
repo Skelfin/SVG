@@ -1,56 +1,54 @@
 <div class="container user-select-none">
   @if (isLoading && photos.length === 0) {
-    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-      <div class="spinner-border color-violet text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="spinner-border color-violet text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
+  </div>
   }
 
   @if (!isLoading || photos.length > 0) {
-    <div class="d-flex justify-content-between align-items-center my-3">
-      <h1 class="text-white">Июль, 2022</h1>
-      @if (isAuthenticated) {
-        <button routerLink="/adding" class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
+  <div class="row justify-content-start mt-2">
+    @for (group of groupedPhotos; track group.monthYear; let i = $index) {
+    <div class="mb-3 w-100">
+      <div class="d-flex justify-content-between align-items-center mt-3 mb-4 custom-h">
+        <h1 class="text-white">{{ group.monthYear }}</h1>
+        @if(i == 0) {
+          <button routerLink="/adding" class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn"
+          [attr.data-bs-toggle]="!isAuthenticated ? 'modal' : null"
+          [attr.data-bs-target]="!isAuthenticated ? '#registrationModal' : null"
+          (click)="!isAuthenticated ? regAuthModal.showLogin() : null">
           <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
           <span class="button-text">Добавить фото</span>
         </button>
-      }@else {
-        <button data-bs-toggle="modal" data-bs-target="#registrationModal" (click)="regAuthModal.showLogin()"
-         class="btn btn-primary-violet btn-lg px-4 py-3 fw-semibold nowrap-btn">
-          <fa-icon [icon]="faPlus" class="fa-solid pr-8px"></fa-icon>
-          <span class="button-text">Добавить фото</span>
-        </button>
-      } 
-    </div>
-    <div class="row justify-content-start" id="photos-container">
-      @for (photo of photos; track photo.ID) {
+        }
+      </div>
+      <div class="row justify-content-start">
+        @for (photo of group.photos; track photo.ID) {
         <div class="col-6 col-md-4 col-lg-3 mb-4 px-0">
           <div class="card text-bg-dark h-100 rounded-5 cursor-pointer">
-            <div routerLink="/picture" class="card-img-container position-relative rounded-5" style="background-color: rgba(0, 0, 0, 0);">
-              <img [src]="'assets/' + photo.Path_to_photography" class="card-img img-fluid" alt="{{ photo.Name }}">
+            <div [routerLink]="'/picture/' + photo.ID" class="card-img-container position-relative rounded-5"
+              style="background-color: rgba(0, 0, 0, 0);">
+              <img [src]="photo.Path_to_photography" class="card-img img-fluid" alt="{{ photo.Name }}">
               <div class="card-img-overlay d-flex flex-column justify-content-end overlay">
                 <h5 class="card-title fs-6-5 text-truncate">{{ photo.Name }}</h5>
-                <p class="card-text fs-7">{{ photo.Date_created }}</p>
+                <p class="card-text fs-7">{{ photo.Date_created | date: 'd MMMM y' : 'ru-RU' }}</p>
               </div>
             </div>
           </div>
         </div>
-      }
-    </div>
-    @if (hasMorePhotos) {
-      <div class="d-flex justify-content-center my-3">
-        @if (isLoadingMore) {
-          <div class="spinner-border button-spinner color-violet text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        }
-        @if (!isLoadingMore) {
-          <button (click)="loadMore()" class="btn btn-outline-violet btn-lg px-4 py-3 w-100 fw-semibold">
-            <fa-icon [icon]="faAngleDown" class="fa-solid pe-2"></fa-icon>Показать еще</button>
         }
       </div>
+    </div>
     }
+  </div>
+
+  @if (hasMorePhotos) {
+  <div class="d-flex justify-content-center my-3">
+    <button (click)="loadMore()" class="btn btn-outline-violet btn-lg px-4 py-3 w-100 fw-semibold">
+      <fa-icon [icon]="faAngleDown" class="fa-solid pe-2"></fa-icon>Показать еще</button>
+  </div>
+  }
   }
 </div>
 

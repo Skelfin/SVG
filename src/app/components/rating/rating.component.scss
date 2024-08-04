@@ -10,9 +10,33 @@
 }
 
 .star {
-  font-size: 36px;
+  font-size: 33px;
+  color: #bbb;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.star.active {
   color: #8a2be2;
-  margin: 0 5px;
+}
+
+.custom-h-132px {
+  max-height: 132px !important;
+}
+
+.spinner-container {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  width: 0;
+  transform: scale(0);
+  transition: opacity 0.1s ease-in-out, width 0.3s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.spinner-container.show {
+  opacity: 1;
+  width: 25px;
+  transform: scale(1);
 }
 
 @media (max-width: 575.98px) {
@@ -22,6 +46,9 @@
   }
   .rating-value {
     margin-right: 1rem !important;
+  }
+  .grade-label {
+    font-size: 1.20rem; // Размер шрифта как у h5
   }
 }
 
