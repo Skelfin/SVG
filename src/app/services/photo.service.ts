@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Status } from '../types/status';
 import { handleTokenExpiration, isTokenExpired } from './token-utils.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

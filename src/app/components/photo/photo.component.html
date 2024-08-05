@@ -1,7 +1,7 @@
 @if (photo) {
   <div class="d-flex justify-content-center align-items-center" style="height: 100%; width: 100%;">
-    <a [href]="photo.Path_to_photography" target="_blank">
-      <img [src]="photo.Path_to_photography" ngOptimizedImage class="img-fluid rounded-4 mb-4 zoomable-image" [alt]="photo.Name">
+    <a [href]="API_URL + photo.Path_to_photography" target="_blank">
+      <img [src]="API_URL + photo.Path_to_photography" ngOptimizedImage class="img-fluid rounded-4 mb-4 zoomable-image" [alt]="photo.Name">
     </a>
   </div>
 }

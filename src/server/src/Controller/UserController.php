@@ -22,6 +22,7 @@ class UserController
 
     private function setCorsHeaders(): void
     {
+        header('Content-Type: application/json');
         header('Access-Control-Allow-Headers: Content-Type, Authorization');
     }
 
@@ -58,7 +59,7 @@ class UserController
 
         $user = $this->userRepository->findUserByEmail($email);
 
-        if ($user === null || !password_verify($password, $user['Password'])) {
+        if ($user === null || ! password_verify($password, $user['Password'])) {
             return new Response(json_encode(['status' => 'error', 'message' => 'Неверный email или пароль']));
         }
 

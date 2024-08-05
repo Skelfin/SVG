@@ -7,8 +7,8 @@
           [class.cursor-pointer]="!imageSrc"
           [class.dragging-over]="isDraggingOver"
           (drop)="onDrop($event)"
-          (dragover)="onDragOver($event)"
-          (dragleave)="onDragLeave($event)"
+          (dragover)="onGlobalDragOver($event)"
+          (dragleave)="onGlobalDragLeave($event)"
           (click)="onBoxClick()"
         >
           <input type="file" (change)="onFileSelected($event)" accept=".jpg" hidden #fileInput>

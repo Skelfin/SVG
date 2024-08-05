@@ -7,6 +7,8 @@ import { PhotoService } from '../../services/photo.service';
 import { MainPhoto } from '../../types/photo';
 import { RegisterService } from '../../services/register.service';
 import { RegistrationModalComponent } from '../reg-modal/reg-modal.component';
+import { API_URL } from '../../constants/constants';
+
 
 @Component({
   selector: 'app-main-component',
@@ -22,6 +24,7 @@ import { RegistrationModalComponent } from '../reg-modal/reg-modal.component';
   providers: [DatePipe],
 })
 export class MainComponentComponent implements OnInit {
+  API_URL = API_URL;
   faPlus = faPlus;
   faAngleDown = faAngleDown;
 
@@ -61,7 +64,6 @@ export class MainComponentComponent implements OnInit {
 
   loadMore(): void {
     if (!this.hasMorePhotos) return;
-
     this.isLoadingMore = true;
     const lastIdParam = this.lastId !== 'initial' ? this.lastId : '';
     this.photoService.getPhotos(lastIdParam).subscribe((newPhotos: MainPhoto[]) => {

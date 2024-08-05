@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, A
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faCircleExclamation, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { PhotoService } from '../../services/photo.service';
-import { jwtDecode } from 'jwt-decode';
 import { CommonModule } from '@angular/common';
 import { UploadPhotoData } from '../../types/photo';
 
@@ -25,7 +24,7 @@ export class AddFormComponent implements OnInit, OnDestroy {
   isDraggingFile: boolean = false;
   isSubmitting: boolean = false;
   photoForm: FormGroup;
-  jwtToken!: string;
+  jwtToken = localStorage.getItem('jwtToken') || '';
 
   constructor(private photoService: PhotoService) {
     this.photoForm = new FormGroup({
@@ -40,12 +39,8 @@ export class AddFormComponent implements OnInit, OnDestroy {
   }
 
   private noLeadingSpaceValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value && control.value[0] === ' ') {
-        return { 'leadingSpace': true };
-      }
-      return null;
-    };
+    return (control: AbstractControl): { [key: string]: boolean } | null =>
+      control.value?.[0] === ' ' ? { 'leadingSpace': true } : null;
   }
 
   ngOnInit() {
@@ -58,70 +53,67 @@ export class AddFormComponent implements OnInit, OnDestroy {
 
   private toggleGlobalDragEvents(enable: boolean) {
     const method = enable ? 'addEventListener' : 'removeEventListener';
-    document[method]('dragenter', this.onGlobalDragEnter as EventListener);
-    document[method]('dragleave', this.onGlobalDragLeave as EventListener);
-    document[method]('dragover', this.onGlobalDragOver as EventListener);
-    document[method]('drop', this.onGlobalDrop as EventListener);
-    document[method]('dragend', this.onGlobalDragEnd as EventListener);
+    const events: { [key: string]: (event: Event) => void } = {
+      dragenter: this.onGlobalDragEnter.bind(this),
+      dragleave: this.onGlobalDragLeave.bind(this),
+      dragover: this.onGlobalDragOver.bind(this),
+      drop: this.onGlobalDrop.bind(this),
+      dragend: this.onGlobalDragEnd.bind(this),
+    };
+    Object.keys(events).forEach(event => 
+      document[method](event, events[event])
+    );
   }
 
-  private onGlobalDragEnter = (event: DragEvent) => {
-    if (event.dataTransfer?.items.length) {
-      this.isDraggingFile = true;
+  onGlobalDragEnter(event: Event) {
+    const dragEvent = event as DragEvent;
+    if (dragEvent.dataTransfer?.items.length) {
       this.isDraggingOver = true;
     }
   }
 
-  private onGlobalDragLeave = (event: DragEvent) => {
-    if (event.relatedTarget === null) {
-      this.isDraggingFile = false;
+  onGlobalDragLeave(event: Event) {
+    const dragEvent = event as DragEvent;
+    if (dragEvent.relatedTarget === null) {
       this.isDraggingOver = false;
     }
   }
 
-  private onGlobalDragOver = (event: DragEvent) => {
+  onGlobalDragOver(event: Event) {
     event.preventDefault();
-    if (this.isDraggingFile) {
-      this.isDraggingOver = true;
-    }
   }
 
-  private onGlobalDrop = (event: DragEvent) => {
+  onGlobalDrop(event: Event) {
     this.resetDragState();
   }
 
-  private onGlobalDragEnd = (event: DragEvent) => {
+  onGlobalDragEnd(event: Event) {
     this.resetDragState();
   }
 
   private resetDragState() {
-    this.isDraggingFile = false;
     this.isDraggingOver = false;
   }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      if (this.isValidFile(file)) {
-        this.readFile(file);
-      } else {
-        alert('Файл должен быть формата JPG и не превышать 3 МБ');
-        input.value = '';
-      }
+    const file = input.files?.[0];
+    if (file && this.isValidFile(file)) {
+      this.readFile(file);
+    } else {
+      alert('Файл должен быть формата JPG и не превышать 3 МБ');
+      input.value = '';
     }
   }
 
   onDrop(event: DragEvent): void {
     event.preventDefault();
     this.resetDragState();
-    if (!this.imageSrc && event.dataTransfer?.files.length) {
-      const file = event.dataTransfer.files[0];
-      if (this.isValidFile(file)) {
-        this.readFile(file);
-      } else {
-        alert('Файл должен быть формата JPG и не превышать 3 МБ');
-      }
+    const file = event.dataTransfer?.files[0];
+    if (file && this.isValidFile(file)) {
+      this.readFile(file);
+    } else {
+      alert('Файл должен быть формата JPG и не превышать 3 МБ');
     }
   }
 
@@ -131,22 +123,11 @@ export class AddFormComponent implements OnInit, OnDestroy {
 
   private readFile(file: File): void {
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = () => {
       this.imageSrc = reader.result;
       this.photoForm.patchValue({ image: file });
-      this.photoForm.get('image')?.updateValueAndValidity();
     };
     reader.readAsDataURL(file);
-  }
-
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-  }
-
-  onDragLeave(event: DragEvent): void {
-    if (event.relatedTarget === null) {
-      this.isDraggingOver = false;
-    }
   }
 
   onBoxClick(): void {
@@ -160,7 +141,6 @@ export class AddFormComponent implements OnInit, OnDestroy {
     this.imageSrc = null;
     this.fileInput.nativeElement.value = '';
     this.photoForm.patchValue({ image: null });
-    this.photoForm.get('image')?.updateValueAndValidity();
   }
 
   onSubmit(): void {

@@ -1,27 +1,69 @@
 # SVG
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
+Проект сделан на Angular 18.1.0, используя Bootstrap 5.3, Open Server Panel 6.0.0, PHP 8.3, MySQL 8.2
 
-## Development server
+## Что надо?
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Для проекта надо установить:
 
-## Code scaffolding
+Node js - https://nodejs.org/en
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Angular 18 и выше - npm install -g @angular/cli
 
-## Build
+OpenServer - офф сайт https://ospanel.io/
+Также в установщике можно установить PHP, MySQL
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Проверить версии (Angular, Node, Package Manager) - ng v
 
-## Running unit tests
+## Из полезных, но необязательных программ: 
+Для настройки БД - phpMyAdmin https://www.phpmyadmin.net/ (на текущей версии Open Server, нужно устанавливать самостоятельно)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Для проверки запросов - Insomnia https://insomnia.rest/download
 
-## Running end-to-end tests
+## Установка
+После установки проекта, надо прописать команду `npm install` в основную папку (\SVG) - этой командой скачаются необходимые файлы для Frontend.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Для Backend, пока только установить Open Server (ниже что делать после).
 
-## Further help
+## Запуск
+Чтобы запустить Frontend проекта,  надо написать команду ng serve в основной папке (\SFM). 
+Для запуска Backend нужно в папке .osp файл создать `.ini` и написать следующее:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[НАЗВАНИЕ]
+
+public_dir = {base_dir}/путь к нужной папке
+
+Фронт запускается на http://localhost:4200/, а бек на том названии, которое ему дается в `.ini`. 
+
+В папке `.ops` также лежит шаблон файла `.ini`.
+
+В папке server нужно создать файл ".еnv" С такими параметрами (кавычки не нужны, все пишется сплошняком):
+
+DB_HOST="Адрес"
+
+DB_NAME="Название БД"
+
+DB_USER="Имя пользователя, под котором заходят в БД"
+
+DB_PASS="Если пароля нет, просто пустое значение без пробелов и т.п."
+
+JWT_KEY="Ключ для JWT Токена"
+
+ENCRYPTION_KEY="Ключа для Шифрования ID картинок"
+
+## Cкриншоты проекта:
+![alt Главная страница (Начало)](/src/assets/Главная_начало.png)
+
+![alt Главная страница (Конец)](/src/assets/Главная_конец.png)
+
+![alt Мод. окно регистрации](/src/assets/Регистрация.png)
+
+![alt Мод. окно авторизации](/src/assets/Авторизация.png)
+
+![alt Страница добавления фотографии](/src/assets/Добавление.png)
+
+![alt Страница фотографии](/src/assets/Фото.png)
+
+![alt Страница фотографии. Фотография пользователя](/src/assets/Фото_польз.png)
+
+![alt Страница фотографии. Оцененная фотография](/src/assets/Фото_оценено.png)

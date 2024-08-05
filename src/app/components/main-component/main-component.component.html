@@ -29,7 +29,7 @@
           <div class="card text-bg-dark h-100 rounded-5 cursor-pointer">
             <div [routerLink]="'/picture/' + photo.ID" class="card-img-container position-relative rounded-5"
               style="background-color: rgba(0, 0, 0, 0);">
-              <img [src]="photo.Path_to_photography" class="card-img img-fluid" alt="{{ photo.Name }}">
+              <img [src]="API_URL + photo.Path_to_photography" class="card-img img-fluid" alt="{{ photo.Name }}">
               <div class="card-img-overlay d-flex flex-column justify-content-end overlay">
                 <h5 class="card-title fs-6-5 text-truncate">{{ photo.Name }}</h5>
                 <p class="card-text fs-7">{{ photo.Date_created | date: 'd MMMM y' : 'ru-RU' }}</p>

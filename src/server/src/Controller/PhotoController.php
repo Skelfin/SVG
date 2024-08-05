@@ -25,53 +25,54 @@ class PhotoController
 
     private function setCorsHeaders(): void
     {
+        header('Content-Type: application/json');
         header('Access-Control-Allow-Headers: Content-Type, Authorization');
     }
 
     public function getPhoto(Request $request): Response
     {
         error_reporting(E_ALL & ~E_WARNING);
-        
+
         $this->setCorsHeaders();
 
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
             return new Response('', 204);
         }
-    
+
         $validator = Validation::createValidator();
         $hash = $request->query->get('id', '');
         $constraints = new Assert\Collection([
             'id' => new Assert\NotBlank()
         ]);
-    
+
         $input = ['id' => $hash];
         $violations = $validator->validate($input, $constraints);
-    
+
         if (count($violations) > 0) {
             return new Response(json_encode(['error' => 'ID потерян']));
         }
-    
+
         $id = $this->decryptId($hash);
         $photo = $this->photoRepository->findPhotoById($id);
-    
+
         if ($photo === false) {
             return new Response(json_encode(['error' => 'Картинка не найдена']));
         }
-    
+
         $authorId = (int)$photo['Author'];
         $author = $this->photoRepository->findAuthorById($authorId);
-    
+
         if ($author === false) {
             return new Response(json_encode(['error' => 'Автор не найден']));
         }
-    
+
         $userId = null;
         $headers = apache_request_headers();
         if (isset($headers['Authorization']) && ! empty($headers['Authorization'])) {
             $token = str_replace('Bearer ', '', $headers['Authorization']);
             $userId = $this->validateToken($token);
         }
-    
+
         $userRating = null;
         if ($userId !== null) {
             $userRatingData = $this->photoRepository->findUserRating($id, $userId);
@@ -79,7 +80,7 @@ class PhotoController
                 $userRating = (int)$userRatingData['Rating'];
             }
         }
-    
+
         $response = [
             'ID'                  => $this->encryptId((int)$photo['ID']),
             'Name'                => htmlspecialchars($photo['Name'], ENT_QUOTES, 'UTF-8'),
@@ -91,7 +92,7 @@ class PhotoController
             'AuthorID'            => $authorId,
             'UserRating'          => $userRating
         ];
-    
+
         return new Response(json_encode($response));
     }
 
@@ -194,8 +195,8 @@ class PhotoController
             return new Response(json_encode(['status' => 'error', 'message' => $errors]));
         }
 
-        $targetDir = '../photos/';
-        $relativePath = 'server/photos/';
+        $targetDir = '../public/photos/';
+        $relativePath = '/photos/';
         if (! is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
