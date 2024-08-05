@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { RegisterService } from '../../services/register.service';
 import { PhotoRatingService } from '../../services/rating-stars.service';
 import { RatingCountPipe } from "../../pipes/rating-count.pipe";
+import { RatePhotoParams } from '../../types/rating';
 
 @Component({
   selector: 'app-rating',
@@ -94,12 +95,18 @@ export class RatingComponent implements OnChanges, OnInit {
       if (this.photo) {
         this.isRatingSubmitting = true;
         setTimeout(() => {
-          this.photoRatingService.ratePhoto(this.photo!.ID, this.selectedRating, (newRating: number, newNumberOfRatings: number) => {
+          const params: RatePhotoParams = {
+            photoId: this.photo!.ID,
+            rating: this.selectedRating,
+            onComplete: (newRating: number, newNumberOfRatings: number) => {
               this.isRatingSubmitting = false;
               this.ratingSubmitted = true;
               this.photo!.Rating = newRating;
               this.photo!.Number_of_ratings = newNumberOfRatings;
-            });
+            }
+          };
+  
+          this.photoRatingService.ratePhoto(params);
         }, 1000);
       }
     }

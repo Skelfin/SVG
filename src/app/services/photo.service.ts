@@ -14,16 +14,16 @@ import { Observable } from 'rxjs';
 export class PhotoService {
   constructor(private http: HttpClient, private readonly router: Router, private toastr: ToastrService) {}
 
-  private getPhotosUrl = `${API_URL}/get_photos.php`;
-  private getPhotoByIdUrl = `${API_URL}/get_photo.php`;
-  private uploadUrl = `${API_URL}/upload_pic.php`;
+  private getPhotosUrl = `${API_URL}/get_photos`;
+  private getPhotoByIdUrl = `${API_URL}/get_photo`;
+  private uploadUrl = `${API_URL}/upload_pic`;
 
   getPhotos(lastId: string) {
     const url = lastId ? `${this.getPhotosUrl}?lastId=${lastId}` : this.getPhotosUrl;
     return this.http.get<MainPhoto[]>(url);
   }
 
-  getPhotoById(id: string): Observable<Photo> {
+  getPhotoById(id: string) {
     const token = localStorage.getItem('jwtToken');
     const headers = new HttpHeaders({
       'Authorization': token ? `Bearer ${token}` : ''

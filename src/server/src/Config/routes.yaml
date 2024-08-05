@@ -1,0 +1,23 @@
+get_photo:
+    path: /get_photo
+    controller: App\Controller\PhotoController::getPhoto
+
+get_photos:
+    path: /get_photos
+    controller: App\Controller\PhotoController::getPhotos
+
+login:
+    path: /login
+    controller: App\Controller\UserController::login
+
+register:
+    path: /register
+    controller: App\Controller\UserController::register
+
+upload_pic:
+    path: /upload_pic
+    controller: App\Controller\PhotoController::uploadPic
+
+rate_photo:
+    path: /rate_photo
+    controller: App\Controller\PhotoController::ratePhoto

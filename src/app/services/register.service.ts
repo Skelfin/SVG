@@ -12,8 +12,8 @@ import { Status } from '../types/status';
 })
 export class RegisterService {
 
-  private registerUrl = `${API_URL}/register.php`;
-  private loginUrl = `${API_URL}/login.php`;
+  private registerUrl = `${API_URL}/register`;
+  private loginUrl = `${API_URL}/login`;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();

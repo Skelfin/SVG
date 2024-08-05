@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { handleTokenExpiration, isTokenExpired } from './token-utils.service';
 import { API_URL } from '../constants/constants';
+import { RatePhotoParams } from '../types/rating';
 
 interface RatePhotoResponse {
   status: string;
@@ -16,7 +17,7 @@ interface RatePhotoResponse {
   providedIn: 'root',
 })
 export class PhotoRatingService {
-  private ratePhotoUrl = `${API_URL}/rate_photo.php`;
+  private ratePhotoUrl = `${API_URL}/rate_photo`;
 
   constructor(
     private http: HttpClient,
@@ -24,7 +25,7 @@ export class PhotoRatingService {
     private router: Router
   ) {}
 
-  ratePhoto(photoId: string, rating: number, onComplete: (newRating: number, newNumberOfRatings: number) => void) {
+  ratePhoto({ photoId, rating, onComplete }: RatePhotoParams) {
     const token = localStorage.getItem('jwtToken');
     if (token && isTokenExpired(token)) {
       handleTokenExpiration(this.toastr, this.router);
